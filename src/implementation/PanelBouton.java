@@ -4,6 +4,7 @@ import implementation.RecuperationCouleurSemiAuto.OnFinishListener;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -32,10 +33,14 @@ public class PanelBouton extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JButton button;
-	private JTextField valeurRouge;
-	private JTextField valeurBleue;
-	private JTextField valeurVerte;
-	private JTextField valeurHexa;
+	JTextField valeurRouge;
+	JTextField valeurBleue;
+	JTextField valeurVerte;
+	 JTextField valeurHexa;
+	JLabel labelBleu;
+	JLabel labelRouge;
+	JLabel labelVert;
+	JLabel labelHexa;
 	RenduBoutonCouleur boutonCouleur;
 	Boolean couleur;
 
@@ -43,7 +48,8 @@ public class PanelBouton extends JPanel {
 		this.boutonCouleur = boutonCouleur;
 		this.couleur = couleur;
 		init(position);
-		initHandler();
+		if(couleur)
+			initHandler();
 	}
 	//TODO proposer à l'utilisateur des couleurs préselectionnées
 	//TODO faire une bouton pour generer une couleur aleatoire
@@ -52,9 +58,13 @@ public class PanelBouton extends JPanel {
 	public void init(int position){
 		if(couleur){
 			valeurBleue = new JTextField("000");
+			labelBleu = new JLabel("B");
 			valeurRouge = new JTextField("000");
+			labelRouge = new JLabel("R");
 			valeurVerte = new JTextField("000");
+			labelVert = new JLabel("V");
 			valeurHexa = new JTextField("000");
+			labelHexa = new JLabel("Hexa");
 
 			// init des drag and drop
 			valeurBleue.setDragEnabled(true);
@@ -66,23 +76,31 @@ public class PanelBouton extends JPanel {
 			valeurBleue.setSize(50,30);
 		}
 		button = new JButton();
-		button.setBounds(position*80+20, 20, 80, 80);
+		//button.setBounds(20, 20, 80, 80);
 		button.setMinimumSize(new Dimension(80, 80));
 		button.setPreferredSize(button.getMinimumSize());
 		button.setVisible(true);
 		button.setOpaque(true);
-		this.setLayout(new GridLayout(1, 2));
+		if(couleur)
+			this.setLayout(new GridLayout(1,1));
+		else
+			this.setLayout(new FlowLayout());
 		this.add(button);
 
 		JPanel valeurCouleurCourante; 
 		valeurCouleurCourante = new JPanel();
-		valeurCouleurCourante.setLayout(new GridLayout(1, 3));//RVB 4933
+		valeurCouleurCourante.setLayout(new GridLayout(4, 2));//RVB 4933
 
 		if(couleur){
-			valeurCouleurCourante.add(valeurBleue);
+			
 			valeurCouleurCourante.add(valeurRouge);
+			valeurCouleurCourante.add(labelRouge);
 			valeurCouleurCourante.add(valeurVerte);
+			valeurCouleurCourante.add(labelVert);
+			valeurCouleurCourante.add(valeurBleue);
+			valeurCouleurCourante.add(labelBleu);
 			valeurCouleurCourante.add(valeurHexa);
+			valeurCouleurCourante.add(labelHexa);
 		}
 		this.add(valeurCouleurCourante);
 	}

@@ -28,6 +28,7 @@ public class RenduBoutonCouleur extends JPanel implements IRenduBoutonCouleur {
 	FenetrePrincipale fenetrePrincipale;
 	List<JButton> listeBoutonsCouleur;
 	List<JButton> listeBoutonsGris;
+	List<PanelBouton> listePanels;
 	JPanel panelCouleur, panelGris;
 
 	public RenduBoutonCouleur(FenetrePrincipale fenetrePrincipale) {
@@ -46,6 +47,7 @@ public class RenduBoutonCouleur extends JPanel implements IRenduBoutonCouleur {
 		this.setLayout(new BorderLayout());
 		listeBoutonsCouleur = new ArrayList<JButton>();
 		listeBoutonsGris = new ArrayList<JButton>();
+		listePanels = new ArrayList<PanelBouton>();
 		
 		for(int i =0; i<fenetrePrincipale.nbCouleurs; i++)
 		{
@@ -57,6 +59,7 @@ public class RenduBoutonCouleur extends JPanel implements IRenduBoutonCouleur {
 			//panel.add(bouton);
 			listeBoutonsCouleur.add(panelBoutonCouleur.getBouton());
 			listeBoutonsGris.add(panelBoutonGris.getBouton());
+			listePanels.add(panelBoutonCouleur);
 		}
 		this.add(panelCouleur, BorderLayout.WEST);
 		this.add(panelGris, BorderLayout.EAST);
@@ -85,6 +88,16 @@ public class RenduBoutonCouleur extends JPanel implements IRenduBoutonCouleur {
 		
 		listeBoutonsGris.get(listeBoutonsCouleur.indexOf(boutonAColorer)).setBackground(genererGrisAPartirDeCouleur(couleurADefinir));
 		listeBoutonsGris.get(listeBoutonsCouleur.indexOf(boutonAColorer)).setForeground(new Color(255 - couleurADefinir.getRed(), 255 - couleurADefinir.getGreen(), 255 - couleurADefinir.getBlue()));
+	}
+	
+	public void changerLabelCouleurs(int numeroBouton, Color couleur)
+	{
+		System.out.println("changer label couleur");
+		PanelBouton t_panel = listePanels.get(numeroBouton);
+		t_panel.valeurBleue.setText(""+couleur.getBlue());
+		t_panel.valeurRouge.setText(""+couleur.getRed());
+		t_panel.valeurVerte.setText(""+couleur.getGreen());
+		t_panel.valeurHexa.setText(Integer.toHexString(couleur.getRGB() & 0x00FFFFFF));
 	}
 
 }
