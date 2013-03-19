@@ -66,7 +66,6 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 		
 		aleatoire = new JButton("Couleurs aléatoires");
 		aleatoire.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("aleatoire");

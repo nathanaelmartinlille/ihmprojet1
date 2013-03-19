@@ -52,7 +52,7 @@ public class PanelBouton extends JPanel {
 			initHandler();
 	}
 	//TODO proposer à l'utilisateur des couleurs préselectionnées
-	//TODO faire une bouton pour generer une couleur aleatoire
+	//FIXME faire une bouton pour generer une couleur aleatoire -> rajouter le bouton al�atoire pour chaque couleur
 	//TODO undo redo
 	//TODO faire un bouton " ouvrir fichier de couleur exportée " sans avoir besoin de demander la destination à l'utilisateur
 	public void init(int position){
