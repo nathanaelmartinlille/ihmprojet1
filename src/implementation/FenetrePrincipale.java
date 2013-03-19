@@ -64,7 +64,7 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 		boutonsCouleur = new RenduBoutonCouleur(this);
 		frameFenetrePrincipale.add(boutonsCouleur);
 		
-		aleatoire = new JButton("Couleurs alŽatoires");
+		aleatoire = new JButton("Couleurs alï¿½atoires");
 		aleatoire.addActionListener(new ActionListener() {
 
 			@Override
