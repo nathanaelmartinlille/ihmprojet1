@@ -101,7 +101,7 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 	}
 
 	private void initialisationFenetre(){
-		this.couleursChoisies = new ArrayList<Color>();
+		couleursChoisies = new ArrayList<Color>();
 		frameFenetrePrincipale = new JFrame();
 		frameFenetrePrincipale.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameFenetrePrincipale.setSize(300, 500);
@@ -146,17 +146,10 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 	@Override
 	public List<Color> recalculerCouleur(List<Color> listeCouleurOrigine) {
 		System.out.println("faire la methode de recalcul de la couleur");		
-		return null;
+		return listeCouleurOrigine;
 	}
 
 	public static void main(String[] args) {
-		FenetrePrincipale fen = new FenetrePrincipale();
-		List<Color> nuanceGris = new ArrayList<Color>();
-		nuanceGris.add(new Color(120, 120, 120));
-		nuanceGris.add(new Color(20, 20, 20));
-		nuanceGris.add(new Color(130, 130, 130));
-		nuanceGris.add(new Color(100, 100, 100));
-		fen.nbCouleurs = 4;
-		fen.verifierNuance(nuanceGris);
+		new FenetrePrincipale();
 	}
 }
