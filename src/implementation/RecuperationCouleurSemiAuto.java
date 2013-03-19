@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -90,6 +91,12 @@ public class RecuperationCouleurSemiAuto extends JPanel implements
 		panelChoixCouleurBleu.add(BorderLayout.NORTH, bleu);
 		panelChoixCouleurBleu.add(BorderLayout.NORTH, couleurBleu);
 
+		// palette des couleurs pour le choix
+				JPanel palette = new JPanel();
+				JLabel image = new JLabel(new ImageIcon(getClass().getResource("/Images/pipette.png")));
+				palette.add(image);
+				palette.setSize(100, 40);
+		
 		frameRecuperationCouleur = new JFrame("Couleurs");
 		frameRecuperationCouleur.addKeyListener(new KeyListener() {
 
@@ -110,21 +117,21 @@ public class RecuperationCouleurSemiAuto extends JPanel implements
 			}
 		});
 		//window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frameRecuperationCouleur.setLayout(new GridLayout(3,2));
-		frameRecuperationCouleur.setSize(300, 300);
+				frameRecuperationCouleur.setLayout(new GridLayout(3,2));
+				frameRecuperationCouleur.setSize(300, 300);
 
 
-		//window.getContentPane().add(vueCouleur, BorderLayout.NORTH);
-		frameRecuperationCouleur.add(texte, BorderLayout.WEST);
-		frameRecuperationCouleur.add(panelChoixCouleurRouge, BorderLayout.EAST);
-		frameRecuperationCouleur.add(panelChoixCouleurVert, BorderLayout.EAST);
-		frameRecuperationCouleur.add(panelChoixCouleurBleu, BorderLayout.EAST);
+				//window.getContentPane().add(vueCouleur, BorderLayout.NORTH);
+				frameRecuperationCouleur.add(texte, BorderLayout.WEST);
+				frameRecuperationCouleur.add(panelChoixCouleurRouge, BorderLayout.EAST);
+				frameRecuperationCouleur.add(panelChoixCouleurVert, BorderLayout.EAST);
+				frameRecuperationCouleur.add(panelChoixCouleurBleu, BorderLayout.EAST);
+				frameRecuperationCouleur.add(palette, BorderLayout.CENTER);
+				frameRecuperationCouleur.setResizable(false);
+				frameRecuperationCouleur.pack();
+				frameRecuperationCouleur.setVisible(true);
 
-		frameRecuperationCouleur.setResizable(false);
-		frameRecuperationCouleur.pack();
-		frameRecuperationCouleur.setVisible(true);
-
-		frameRecuperationCouleur.requestFocus();
+				frameRecuperationCouleur.requestFocus();
 	}
 
 	public void updatePos(final List<Color> couleursUtilisees) //update mouse position. Identical to constructor

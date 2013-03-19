@@ -8,7 +8,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class DialogueChoixCouleur extends JDialog implements ActionListener{
 
@@ -19,6 +22,8 @@ public class DialogueChoixCouleur extends JDialog implements ActionListener{
 	private JTextField texte;
 	private String erreur;
 
+	private JSlider sliderNbCouleurs;
+	
 	public DialogueChoixCouleur(FenetrePrincipale fenetrePrincipale)
 	{
 		this.fenetrePrincipale = fenetrePrincipale;
@@ -34,11 +39,34 @@ public class DialogueChoixCouleur extends JDialog implements ActionListener{
 		//Cr�ation du label
 		JLabel phrase = new JLabel("Bonjour, combien de couleurs voulez-vous ?");
 		this.add(phrase);
+		
+		sliderNbCouleurs = new JSlider();
+		sliderNbCouleurs.setMaximum(10);
+		sliderNbCouleurs.setMinimum(1);
+		sliderNbCouleurs.setValue(5);
+		sliderNbCouleurs.setPreferredSize(new Dimension(150,40));
+		sliderNbCouleurs.setMajorTickSpacing(1); 
+		sliderNbCouleurs.setMinorTickSpacing(1); 
+		sliderNbCouleurs.setPaintTicks(true); 
+		sliderNbCouleurs.setPaintLabels(true);
+		sliderNbCouleurs.setSnapToTicks(true);
+		sliderNbCouleurs.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				texte.setText(sliderNbCouleurs.getValue()+"");
+				sliderNbCouleurs.setValue(sliderNbCouleurs.getValue());
+				sliderNbCouleurs.repaint();
+				System.out.println(texte.getText());
+			}
+		});
+		this.add(sliderNbCouleurs);
 
 		texte = new JTextField();
+		texte.setText("5");
 		texte.addActionListener(this);
 		texte.setPreferredSize(new Dimension(150, 30));
-		this.add(texte);	
+		//this.add(texte);	
 
 
 		// Bouton valider
