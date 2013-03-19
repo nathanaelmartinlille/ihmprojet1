@@ -48,6 +48,7 @@ public class PanelBouton extends JPanel {
 	//TODO proposer à l'utilisateur des couleurs préselectionnées
 	//TODO faire une bouton pour generer une couleur aleatoire
 	//TODO undo redo
+	//TODO faire un bouton " ouvrir fichier de couleur exportée " sans avoir besoin de demander la destination à l'utilisateur
 	public void init(int position){
 		if(couleur){
 			valeurBleue = new JTextField("000");

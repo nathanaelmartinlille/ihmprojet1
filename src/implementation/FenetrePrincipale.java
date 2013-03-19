@@ -35,7 +35,18 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 
 	@Override
 	public Boolean verifierNuance(List<Color> listeNuance) {
-		// TODO Auto-generated method stub
+		int interval = 255 / this.nbCouleurs;
+
+		for (int i = 0; i < listeNuance.size(); i++) {
+			for (int j = 0; j < listeNuance.size(); j++) {
+				if(i != j){
+					// on regarde si le gris est trop proche d'un autre
+					if(Math.abs(listeNuance.get(i).getBlue() - listeNuance.get(j).getBlue()) < interval){
+						return false;
+					}
+				}
+			}
+		}
 		return null;
 	}
 
@@ -70,6 +81,13 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 	}
 
 	public static void main(String[] args) {
-		new FenetrePrincipale();
+		FenetrePrincipale fen = new FenetrePrincipale();
+		List<Color> nuanceGris = new ArrayList<Color>();
+		nuanceGris.add(new Color(120, 120, 120));
+		nuanceGris.add(new Color(20, 20, 20));
+		nuanceGris.add(new Color(130, 130, 130));
+		nuanceGris.add(new Color(100, 100, 100));
+		fen.nbCouleurs = 4;
+		fen.verifierNuance(nuanceGris);
 	}
 }
