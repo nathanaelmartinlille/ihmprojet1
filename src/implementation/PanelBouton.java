@@ -21,7 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.TransferHandler;
-import javax.swing.text.JTextComponent;
 
 /**Ce panel permet de modeliser une couleur avec sa valeur qui va avec.
  * @author nath
