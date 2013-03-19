@@ -27,24 +27,6 @@ public class RecuperationCouleurSemiAuto extends JPanel implements
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	@Override
-	public Boolean couleurDejaExistante(Color couleurChoisie) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Color preleverCouleur() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Color> envoyerListeCouleurChoisie() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	PointerInfo pointer;
 	Robot robot;
@@ -148,7 +130,27 @@ public class RecuperationCouleurSemiAuto extends JPanel implements
 	public void updatePos(final List<Color> couleursUtilisees) //update mouse position. Identical to constructor
 	{
 		miseEnPlace();
+		preleverCouleur();
+	}
 
+	public Color getColor()
+	{
+		return couleurClique;
+	}
+
+
+	public void setOnFinishListener(OnFinishListener onFinishListener){
+		this.onFinishListener=onFinishListener;
+	}
+
+	public interface OnFinishListener {
+		public void onFinish();
+	}
+
+
+
+	@Override
+	public void preleverCouleur() {
 		Thread t = new Thread(new Runnable() {
 			Color color;
 			@Override
@@ -175,18 +177,9 @@ public class RecuperationCouleurSemiAuto extends JPanel implements
 		t.start();
 	}
 
-	public Color getColor()
-	{
-		return couleurClique;
+	@Override
+	public List<Color> envoyerListeCouleurChoisie() {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
-
-	public void setOnFinishListener(OnFinishListener onFinishListener){
-		this.onFinishListener=onFinishListener;
-	}
-
-	public interface OnFinishListener {
-		public void onFinish();
-	}
-
 }
