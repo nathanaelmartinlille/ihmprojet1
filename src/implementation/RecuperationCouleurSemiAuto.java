@@ -11,8 +11,12 @@ import java.awt.PointerInfo;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,13 +26,13 @@ import javax.swing.JTextArea;
 import facade.IRecuperationCouleurSemiAuto;
 
 public class RecuperationCouleurSemiAuto extends JPanel implements
-		IRecuperationCouleurSemiAuto {
+IRecuperationCouleurSemiAuto {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	PointerInfo pointer;
 	Robot robot;
 	Point coord;
@@ -59,6 +63,7 @@ public class RecuperationCouleurSemiAuto extends JPanel implements
 
 	/**
 	 * Methode qui permet d'initialiser le panel pour choisir une couleur à l'ecran
+	 * @throws IOException 
 	 */
 	private void miseEnPlace()
 	{
@@ -92,11 +97,17 @@ public class RecuperationCouleurSemiAuto extends JPanel implements
 		panelChoixCouleurBleu.add(BorderLayout.NORTH, couleurBleu);
 
 		// palette des couleurs pour le choix
-				JPanel palette = new JPanel();
-				JLabel image = new JLabel(new ImageIcon(getClass().getResource("/Images/pipette.png")));
-				palette.add(image);
-				palette.setSize(100, 40);
-		
+		JPanel palette = new JPanel();
+		try {
+			BufferedImage img = ImageIO.read(new File("src/palette.png"));
+			JLabel image = new JLabel(new ImageIcon(img));
+			palette.add(image);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		palette.setSize(100, 40);
+
 		frameRecuperationCouleur = new JFrame("Couleurs");
 		frameRecuperationCouleur.addKeyListener(new KeyListener() {
 
@@ -117,21 +128,21 @@ public class RecuperationCouleurSemiAuto extends JPanel implements
 			}
 		});
 		//window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frameRecuperationCouleur.setLayout(new GridLayout(3,2));
-				frameRecuperationCouleur.setSize(300, 300);
+		frameRecuperationCouleur.setLayout(new GridLayout(3,2));
+		frameRecuperationCouleur.setSize(300, 300);
 
 
-				//window.getContentPane().add(vueCouleur, BorderLayout.NORTH);
-				frameRecuperationCouleur.add(texte, BorderLayout.WEST);
-				frameRecuperationCouleur.add(panelChoixCouleurRouge, BorderLayout.EAST);
-				frameRecuperationCouleur.add(panelChoixCouleurVert, BorderLayout.EAST);
-				frameRecuperationCouleur.add(panelChoixCouleurBleu, BorderLayout.EAST);
-				frameRecuperationCouleur.add(palette, BorderLayout.CENTER);
-				frameRecuperationCouleur.setResizable(false);
-				frameRecuperationCouleur.pack();
-				frameRecuperationCouleur.setVisible(true);
+		//window.getContentPane().add(vueCouleur, BorderLayout.NORTH);
+		frameRecuperationCouleur.add(texte, BorderLayout.WEST);
+		frameRecuperationCouleur.add(panelChoixCouleurRouge, BorderLayout.EAST);
+		frameRecuperationCouleur.add(panelChoixCouleurVert, BorderLayout.EAST);
+		frameRecuperationCouleur.add(panelChoixCouleurBleu, BorderLayout.EAST);
+		frameRecuperationCouleur.add(palette, BorderLayout.CENTER);
+		frameRecuperationCouleur.setResizable(false);
+		frameRecuperationCouleur.pack();
+		frameRecuperationCouleur.setVisible(true);
 
-				frameRecuperationCouleur.requestFocus();
+		frameRecuperationCouleur.requestFocus();
 	}
 
 	public void updatePos(final List<Color> couleursUtilisees) //update mouse position. Identical to constructor

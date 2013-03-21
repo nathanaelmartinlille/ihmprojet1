@@ -8,12 +8,15 @@ import java.io.PrintWriter;
 
 public class HistoriqueUtils {
 
+	/**
+	 * @param text le texte à ecrire
+	 */
 	public static void ecrireHistorique(String text) 
 	{
 		PrintWriter ecri ;
 		try
 		{
-			ecri = new PrintWriter(new FileWriter("histo.txt"));
+			ecri = new PrintWriter(new FileWriter("src/histo.txt"));
 			ecri.print(text);
 			ecri.flush();
 			ecri.close();
@@ -28,13 +31,13 @@ public class HistoriqueUtils {
 		}
 	}
 	
-	public String lire () 
+	public static String lireHistorique () 
 	{
 		BufferedReader lect ;
 		String tmp = "";
 		try
 		{
-			lect = new BufferedReader(new FileReader("histo.txt")) ;
+			lect = new BufferedReader(new FileReader("src/histo.txt")) ;
 			while (lect.ready()==true) 
 			{
 				tmp += lect.readLine() ; 

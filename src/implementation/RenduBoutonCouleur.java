@@ -79,7 +79,6 @@ public class RenduBoutonCouleur extends JPanel implements IRenduBoutonCouleur {
 	 */
 	public void changerLabelCouleurs(int numeroBouton, Color couleur)
 	{
-		System.out.println("changer label couleur");
 		PanelBouton t_panel = listePanels.get(numeroBouton);
 		t_panel.valeurBleue.setText(""+couleur.getBlue());
 		t_panel.valeurRouge.setText(""+couleur.getRed());

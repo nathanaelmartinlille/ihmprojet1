@@ -112,12 +112,10 @@ public class PanelBouton extends JPanel {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
-				System.out.println("on m'a cliqué dessus");
 				final RecuperationCouleurSemiAuto recuperationCouleurSemiAuto = new RecuperationCouleurSemiAuto();
 				recuperationCouleurSemiAuto.setOnFinishListener(new OnFinishListener() {
 					@Override
 					public void onFinish() {
-						System.out.println("ajout dans l'historique la couleur qui a été choisie");
 						/// Si la couleur a déjà été utilisée
 						if(boutonCouleur.fenetrePrincipale.couleursChoisies.contains(recuperationCouleurSemiAuto.couleurClique))
 						{
@@ -125,9 +123,13 @@ public class PanelBouton extends JPanel {
 						}
 						else
 						{
-							HistoriqueUtils.ecrireHistorique(((JButton)e.getSource()).getBackground().toString());
+							System.out.println("ajout dans l'historique la couleur qui a été choisie");
+							JButton boutonClique = (JButton)e.getSource();
+							Color couleurBouton = boutonClique.getBackground();
+							// on enregistre sous le format index du bouton + R + G + B
+							HistoriqueUtils.ecrireHistorique(boutonCouleur.listeBoutonsCouleur.indexOf(boutonClique) + "_"+ couleurBouton.getRed() + "_" + couleurBouton.getGreen() + "_" + couleurBouton.getBlue());
 							boutonCouleur.fenetrePrincipale.couleursChoisies.add(recuperationCouleurSemiAuto.couleurClique);
-							boutonCouleur.fenetrePrincipale.getBoutonsCouleur().colorerBouton((JButton)e.getSource(), recuperationCouleurSemiAuto.couleurClique);
+							boutonCouleur.colorerBouton(boutonClique, recuperationCouleurSemiAuto.couleurClique);
 							miseAjourValeurBouton(recuperationCouleurSemiAuto.couleurClique);
 						}
 						boutonCouleur.fenetrePrincipale.getFrameFenetrePrincipale().repaint();
