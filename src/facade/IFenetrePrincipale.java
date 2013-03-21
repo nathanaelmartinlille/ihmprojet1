@@ -19,7 +19,7 @@ public interface IFenetrePrincipale {
 	public Boolean verifierNuance(List<Color> listeNuance);
 	
 	/**Methode qui calcule les couleurs optimales pour faire des gris distinct.
-	 * @param listeCouleurOrigine
+	 * @param listeCouleurOrigine la liste des couleurs à changer
 	 * @return la liste des couleurs misent à jour
 	 */
 	public List<Color> recalculerCouleur(List<Color> listeCouleurOrigine);

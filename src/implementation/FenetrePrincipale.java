@@ -19,10 +19,11 @@ import facade.IFenetrePrincipale;
 public class FenetrePrincipale implements IFenetrePrincipale {
 
 	List<Color> couleursChoisies;
-	RenduBoutonCouleur boutonsCouleur;
-	JFrame frameFenetrePrincipale;
-	JButton aleatoire;
-	public int nbCouleurs = 3;
+	private RenduBoutonCouleur boutonsCouleur;
+	private JFrame frameFenetrePrincipale;
+	private JButton aleatoire;
+	private int nbCouleurs = 3;
+	
 	/**
 	 * Constructeur qui initialise les composants.
 	 */
@@ -41,7 +42,7 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 
 	@Override
 	public Boolean verifierNuance(List<Color> listeNuance) {
-		int interval = 255 / this.nbCouleurs;
+		int interval = 255 / this.getNbCouleurs();
 
 		for (int i = 0; i < listeNuance.size(); i++) {
 			for (int j = 0; j < listeNuance.size(); j++) {
@@ -61,10 +62,10 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 	 */
 	private void initialisationComposantFenetre()
 	{
-		boutonsCouleur = new RenduBoutonCouleur(this);
-		frameFenetrePrincipale.add(boutonsCouleur);
+		setBoutonsCouleur(new RenduBoutonCouleur(this));
+		getFrameFenetrePrincipale().add(getBoutonsCouleur());
 		
-		aleatoire = new JButton("Couleurs al�atoires");
+		aleatoire = new JButton("Couleurs aléatoires");
 		aleatoire.addActionListener(new ActionListener() {
 
 			@Override
@@ -72,7 +73,7 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 				System.out.println("aleatoire");
 				couleursChoisies.clear();
 				Random rand = new Random();
-				for(int i=0; i<nbCouleurs; i++)
+				for(int i=0; i<getNbCouleurs(); i++)
 				{
 					Color randomColor;
 					float r = rand.nextFloat();
@@ -87,31 +88,32 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 						couleursChoisies.add(randomColor);
 					}
 				}
+				
 				couleursChoisies = recalculerCouleur(couleursChoisies);
 
-				for (int i = 0; i < nbCouleurs; i++) {
-					boutonsCouleur.colorerBouton(boutonsCouleur.listeBoutonsCouleur.get(i), couleursChoisies.get(i));
-					boutonsCouleur.changerLabelCouleurs(i, couleursChoisies.get(i));
+				for (int i = 0; i < getNbCouleurs(); i++) {
+					getBoutonsCouleur().colorerBouton(getBoutonsCouleur().listeBoutonsCouleur.get(i), couleursChoisies.get(i));
+					getBoutonsCouleur().changerLabelCouleurs(i, couleursChoisies.get(i));
 				}
 			}
 		});
-		frameFenetrePrincipale.add(aleatoire, BorderLayout.SOUTH);
+		getFrameFenetrePrincipale().add(aleatoire, BorderLayout.SOUTH);
 		faireCouleursAleatoire();
 		
-		frameFenetrePrincipale.setVisible(true);
+		getFrameFenetrePrincipale().setVisible(true);
 	}
 
 	private void initialisationFenetre(){
 		this.couleursChoisies = new ArrayList<Color>();
-		frameFenetrePrincipale = new JFrame();
-		frameFenetrePrincipale.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frameFenetrePrincipale.setSize(300, 500);
-		frameFenetrePrincipale.setResizable(false);
-		frameFenetrePrincipale.setMinimumSize(new Dimension(100,100));
-		frameFenetrePrincipale.setLayout(new BorderLayout());
+		setFrameFenetrePrincipale(new JFrame());
+		getFrameFenetrePrincipale().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getFrameFenetrePrincipale().setSize(300, 500);
+		getFrameFenetrePrincipale().setResizable(false);
+		getFrameFenetrePrincipale().setMinimumSize(new Dimension(100,100));
+		getFrameFenetrePrincipale().setLayout(new BorderLayout());
 		JLabel phraseDebut = new JLabel("Bienvenue, choisissez vos couleurs");
 		phraseDebut.setHorizontalAlignment(SwingConstants.CENTER);
-		frameFenetrePrincipale.add(phraseDebut, BorderLayout.NORTH);
+		getFrameFenetrePrincipale().add(phraseDebut, BorderLayout.NORTH);
 		/*JLabel explication = new JLabel("Pour commencer, veuillez choisir une couleur dans la liste de gauche");
 		explication.setHorizontalAlignment(SwingConstants.CENTER);
 		frameFenetrePrincipale.add(explication, BorderLayout.NORTH);*/
@@ -121,7 +123,7 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 	public void faireCouleursAleatoire()
 	{
 		Random rand = new Random();
-		for(int i=0; i<nbCouleurs; i++)
+		for(int i=0; i<getNbCouleurs(); i++)
 		{
 			Color randomColor;
 			float r = rand.nextFloat();
@@ -138,16 +140,19 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 		}
 		couleursChoisies = recalculerCouleur(couleursChoisies);
 
-		for (int i = 0; i < nbCouleurs; i++) {
-			boutonsCouleur.colorerBouton(boutonsCouleur.listeBoutonsCouleur.get(i), couleursChoisies.get(i)); 
-			boutonsCouleur.changerLabelCouleurs(i, couleursChoisies.get(i));
+		for (int i = 0; i < getNbCouleurs(); i++) {
+			getBoutonsCouleur().colorerBouton(getBoutonsCouleur().listeBoutonsCouleur.get(i), couleursChoisies.get(i)); 
+			getBoutonsCouleur().changerLabelCouleurs(i, couleursChoisies.get(i));
 		}
 	}
 
 	@Override
 	public List<Color> recalculerCouleur(List<Color> listeCouleurOrigine) {
+		List<Color> listeNuance = new ArrayList<Color>();
+		
+		verifierNuance(listeNuance);
 		System.out.println("faire la methode de recalcul de la couleur");		
-		return null;
+		return listeCouleurOrigine;
 	}
 
 	public static void main(String[] args) {
@@ -157,7 +162,37 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 		nuanceGris.add(new Color(20, 20, 20));
 		nuanceGris.add(new Color(130, 130, 130));
 		nuanceGris.add(new Color(100, 100, 100));
-		fen.nbCouleurs = 4;
+		fen.setNbCouleurs(4);
 		fen.verifierNuance(nuanceGris);
+	}
+
+
+	public int getNbCouleurs() {
+		return nbCouleurs;
+	}
+
+
+	public void setNbCouleurs(int nbCouleurs) {
+		this.nbCouleurs = nbCouleurs;
+	}
+
+
+	public RenduBoutonCouleur getBoutonsCouleur() {
+		return boutonsCouleur;
+	}
+
+
+	public void setBoutonsCouleur(RenduBoutonCouleur boutonsCouleur) {
+		this.boutonsCouleur = boutonsCouleur;
+	}
+
+
+	public JFrame getFrameFenetrePrincipale() {
+		return frameFenetrePrincipale;
+	}
+
+
+	public void setFrameFenetrePrincipale(JFrame frameFenetrePrincipale) {
+		this.frameFenetrePrincipale = frameFenetrePrincipale;
 	}
 }

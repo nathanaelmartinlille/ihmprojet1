@@ -22,6 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.TransferHandler;
 
+import outil.HistoriqueUtils;
+
 /**Ce panel permet de modeliser une couleur avec sa valeur qui va avec.
  * @author nath
  *
@@ -115,20 +117,20 @@ public class PanelBouton extends JPanel {
 				recuperationCouleurSemiAuto.setOnFinishListener(new OnFinishListener() {
 					@Override
 					public void onFinish() {
-						System.out.println("on a fini de choisir la couleur");
-						/// Si la couleur a déjà utilisée
+						System.out.println("ajout dans l'historique la couleur qui a été choisie");
+						/// Si la couleur a déjà été utilisée
 						if(boutonCouleur.fenetrePrincipale.couleursChoisies.contains(recuperationCouleurSemiAuto.couleurClique))
 						{
-							new JDialog(boutonCouleur.fenetrePrincipale.frameFenetrePrincipale, "couleur déjà utilisée").setVisible(true);
+							new JDialog(boutonCouleur.fenetrePrincipale.getFrameFenetrePrincipale(), "couleur déjà utilisée").setVisible(true);
 						}
 						else
 						{
-
+							HistoriqueUtils.ecrireHistorique(((JButton)e.getSource()).getBackground().toString());
 							boutonCouleur.fenetrePrincipale.couleursChoisies.add(recuperationCouleurSemiAuto.couleurClique);
-							boutonCouleur.fenetrePrincipale.boutonsCouleur.colorerBouton((JButton)e.getSource(), recuperationCouleurSemiAuto.couleurClique);
+							boutonCouleur.fenetrePrincipale.getBoutonsCouleur().colorerBouton((JButton)e.getSource(), recuperationCouleurSemiAuto.couleurClique);
 							miseAjourValeurBouton(recuperationCouleurSemiAuto.couleurClique);
 						}
-						boutonCouleur.fenetrePrincipale.frameFenetrePrincipale.repaint();
+						boutonCouleur.fenetrePrincipale.getFrameFenetrePrincipale().repaint();
 					}
 				});
 				recuperationCouleurSemiAuto.updatePos(boutonCouleur.fenetrePrincipale.couleursChoisies);
