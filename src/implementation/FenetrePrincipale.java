@@ -147,7 +147,13 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 
 	@Override
 	public List<Color> recalculerCouleur(List<Color> listeCouleurOrigine) {
-		System.out.println("faire la methode de recalcul de la couleur");		
+		System.out.println("faire la methode de recalcul de la couleur");
+		List<Color> listeCouleursGrises = new ArrayList<Color>();
+		while(!verifierNuance(listeCouleursGrises))
+		{
+			
+		}
+		
 		return listeCouleurOrigine;
 	}
 
