@@ -21,7 +21,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.TransferHandler;
-import javax.swing.text.JTextComponent;
+
+import outil.HistoriqueUtils;
 
 /**Ce panel permet de modeliser une couleur avec sa valeur qui va avec.
  * @author nath
@@ -73,7 +74,8 @@ public class PanelBouton extends JPanel {
 			valeurRouge.setTransferHandler(new TransfertHandlerPerso());
 			valeurVerte.setDragEnabled(true);
 			valeurVerte.setTransferHandler(new TransfertHandlerPerso());
-			valeurBleue.setSize(50,30);
+			valeurHexa.setDragEnabled(true);
+			valeurHexa.setTransferHandler(new TransfertHandlerPerso());
 		}
 		button = new JButton();
 		//button.setBounds(20, 20, 80, 80);
@@ -111,25 +113,27 @@ public class PanelBouton extends JPanel {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
-				System.out.println("on m'a cliqué dessus");
 				final RecuperationCouleurSemiAuto recuperationCouleurSemiAuto = new RecuperationCouleurSemiAuto();
 				recuperationCouleurSemiAuto.setOnFinishListener(new OnFinishListener() {
 					@Override
 					public void onFinish() {
-						System.out.println("on a fini de choisir la couleur");
-						/// Si la couleur a déjà utilisée
+						/// Si la couleur a déjà été utilisée
 						if(boutonCouleur.fenetrePrincipale.couleursChoisies.contains(recuperationCouleurSemiAuto.couleurClique))
 						{
-							new JDialog(boutonCouleur.fenetrePrincipale.frameFenetrePrincipale, "couleur déjà utilisée").setVisible(true);
+							new JDialog(boutonCouleur.fenetrePrincipale.getFrameFenetrePrincipale(), "couleur déjà utilisée").setVisible(true);
 						}
 						else
 						{
-
+							System.out.println("ajout dans l'historique la couleur qui a été choisie");
+							JButton boutonClique = (JButton)e.getSource();
+							Color couleurBouton = boutonClique.getBackground();
+							// on enregistre sous le format index du bouton + R + G + B
+							HistoriqueUtils.ecrireHistorique(boutonCouleur.listeBoutonsCouleur.indexOf(boutonClique) + "_"+ couleurBouton.getRed() + "_" + couleurBouton.getGreen() + "_" + couleurBouton.getBlue());
 							boutonCouleur.fenetrePrincipale.couleursChoisies.add(recuperationCouleurSemiAuto.couleurClique);
-							boutonCouleur.fenetrePrincipale.boutonsCouleur.colorerBouton((JButton)e.getSource(), recuperationCouleurSemiAuto.couleurClique);
+							boutonCouleur.colorerBouton(boutonClique, recuperationCouleurSemiAuto.couleurClique);
 							miseAjourValeurBouton(recuperationCouleurSemiAuto.couleurClique);
 						}
-						boutonCouleur.fenetrePrincipale.frameFenetrePrincipale.repaint();
+						boutonCouleur.fenetrePrincipale.getFrameFenetrePrincipale().repaint();
 					}
 				});
 				recuperationCouleurSemiAuto.updatePos(boutonCouleur.fenetrePrincipale.couleursChoisies);

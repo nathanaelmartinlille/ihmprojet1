@@ -9,6 +9,8 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import outil.CouleurUtils;
+
 import facade.IRenduBoutonCouleur;
 
 public class RenduBoutonCouleur extends JPanel implements IRenduBoutonCouleur {
@@ -33,16 +35,16 @@ public class RenduBoutonCouleur extends JPanel implements IRenduBoutonCouleur {
 
 	private void initComposant() {
 		panelCouleur = new JPanel();
-		panelCouleur.setLayout(new GridLayout(fenetrePrincipale.nbCouleurs, 2));
+		panelCouleur.setLayout(new GridLayout(fenetrePrincipale.getNbCouleurs(), 2));
 		panelGris = new JPanel();
-		panelGris.setLayout(new GridLayout(fenetrePrincipale.nbCouleurs, 1));
+		panelGris.setLayout(new GridLayout(fenetrePrincipale.getNbCouleurs(), 1));
 		
 		this.setLayout(new BorderLayout());
 		listeBoutonsCouleur = new ArrayList<JButton>();
 		listeBoutonsGris = new ArrayList<JButton>();
 		listePanels = new ArrayList<PanelBouton>();
 		
-		for(int i =0; i<fenetrePrincipale.nbCouleurs; i++)
+		for(int i =0; i<fenetrePrincipale.getNbCouleurs(); i++)
 		{
 			// on creer les panels de couleur ainsi que les panel pour les gris générés
 			PanelBouton panelBoutonCouleur = new PanelBouton(this, i, true);
@@ -56,21 +58,9 @@ public class RenduBoutonCouleur extends JPanel implements IRenduBoutonCouleur {
 		}
 		this.add(panelCouleur, BorderLayout.WEST);
 		this.add(panelGris, BorderLayout.EAST);
-		this.setSize(TAILLE_BOUTON * fenetrePrincipale.nbCouleurs, TAILLE_BOUTON * 3);
+		this.setSize(TAILLE_BOUTON * fenetrePrincipale.getNbCouleurs(), TAILLE_BOUTON * 3);
 	}
-	
-	@Override
-	public Color genererGrisAPartirDeCouleur(Color couleur) {
-		int red = couleur.getRed();
-		int green =couleur.getGreen();
-		int blue = couleur.getBlue();
-		// 0.3   Rouge + 0.59   Vert + 0.11   Bleu
-		int newPixel = (int) (0.2125* red + 0.7154*green + 0.0721*blue);
-		
-		//Return back to original format
-		return new Color(newPixel, newPixel, newPixel);
-		
-	}
+	//FIXME creer classe utilitaire pour generer le gris à partir d'une couleur
 
 	@Override
 	public void colorerBouton(JButton boutonAColorer, Color couleurADefinir) {
@@ -79,13 +69,16 @@ public class RenduBoutonCouleur extends JPanel implements IRenduBoutonCouleur {
 
 		// On associe le bouton gris
 		
-		listeBoutonsGris.get(listeBoutonsCouleur.indexOf(boutonAColorer)).setBackground(genererGrisAPartirDeCouleur(couleurADefinir));
+		listeBoutonsGris.get(listeBoutonsCouleur.indexOf(boutonAColorer)).setBackground(CouleurUtils.genererGrisAPartirDeCouleur(couleurADefinir));
 		listeBoutonsGris.get(listeBoutonsCouleur.indexOf(boutonAColorer)).setForeground(new Color(255 - couleurADefinir.getRed(), 255 - couleurADefinir.getGreen(), 255 - couleurADefinir.getBlue()));
 	}
 	
+	/**
+	 * @param numeroBouton
+	 * @param couleur
+	 */
 	public void changerLabelCouleurs(int numeroBouton, Color couleur)
 	{
-		System.out.println("changer label couleur");
 		PanelBouton t_panel = listePanels.get(numeroBouton);
 		t_panel.valeurBleue.setText(""+couleur.getBlue());
 		t_panel.valeurRouge.setText(""+couleur.getRed());

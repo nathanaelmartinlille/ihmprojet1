@@ -73,7 +73,7 @@ public class DialogueChoixCouleur extends JDialog implements ActionListener{
 		JButton boutonValider = new JButton("Valider");
 		this.add(boutonValider);
 		boutonValider.addActionListener(this);
-		fenetrePrincipale.nbCouleurs = this.nbCouleursInt;
+		fenetrePrincipale.setNbCouleurs(this.nbCouleursInt);
 
 
 
@@ -128,7 +128,7 @@ public class DialogueChoixCouleur extends JDialog implements ActionListener{
 		if(estCorrect())
 		{
 			this.setVisible(false);
-			fenetrePrincipale.nbCouleurs = this.nbCouleursInt;
+			fenetrePrincipale.setNbCouleurs(this.nbCouleursInt);
 		}
 		else
 		{

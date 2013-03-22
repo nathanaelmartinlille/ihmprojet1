@@ -9,12 +9,6 @@ import javax.swing.JButton;
  */
 public interface IRenduBoutonCouleur {
 
-	/**Methode qui permet de faire le rendu en nuance de gris de la couleur correspondante.
-	 * @param couleur la couleur à griser
-	 * @return la couleur en nuance de gris
-	 */
-	public Color genererGrisAPartirDeCouleur(Color couleur);
-	
 	/**Colore le bouton mis en parametre.
 	 * @param boutonAColorer le bouton à colorer
 	 * @param couleurADefinir la couleur a set sur le bouton
