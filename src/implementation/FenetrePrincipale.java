@@ -92,7 +92,7 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 			}
 		});
 
-		aleatoire = new JButton("Couleurs alŽatoires");
+		aleatoire = new JButton("Couleurs alï¿½atoires");
 		aleatoire.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -180,15 +180,15 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 		nouvelleListeCouleur = listeCouleurOrigine;
 		int interval = 255 / this.getNbCouleurs();
 		int milieu = interval/2;
-		
+		// generation des gris Ã  partir de la liste de couleur
 		for (int i = 0; i < listeCouleurOrigine.size(); i++) {
 			listeNuanceGris.add(CouleurUtils.genererGrisAPartirDeCouleur(listeCouleurOrigine.get(i)));
 		}
-		
-		System.out.println("liste des couelurs : "+nouvelleListeCouleur);
+
+		System.out.println("liste des couleurs : "+nouvelleListeCouleur);
 		System.out.println("liste des gris  : "+listeNuanceGris);
 		System.out.println("faire la methode de recalcul de la couleur");
-		
+
 		List<Color> nouveauxGris = new ArrayList<Color>();
 		List<Color> nouvellesCouleurs = new ArrayList<Color>();
 		while(!verifierNuance(listeNuanceGris))
@@ -206,8 +206,8 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 						colorPlusProche = nouvelleListeCouleur.get(gris);
 					}
 				}
-				
-				
+
+
 				// Couleurs possibles pour le gris optimal
 				ArrayList<Color> couleursOkPourGris = new ArrayList<Color>();
 				for (int couleur1 = 0; couleur1 < 256; couleur1++) {
@@ -222,7 +222,7 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 						}
 					}
 				}
-				
+
 				// On choisit la couleur la plus proche de celle d'avant
 				Color couleurCommeAvant = couleursOkPourGris.get(0);
 				System.out.println("color plus proche : "+colorPlusProche);
@@ -233,17 +233,17 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 						//System.out.println("couleur comme avant : "+couleurCommeAvant);
 					}
 				}
-				
+
 				// On les met dans les nouvelles listes
 				nouveauxGris.add(grisOptimal);
 				nouvellesCouleurs.add(couleurCommeAvant);
-				
+
 				// On les supprimes des autres liste
 				nouvellesCouleurs.remove(colorPlusProche);
 				listeNuanceGris.remove(grisPlusProche);
 			}
 		}
-				
+
 		System.out.println("nouvelles couleurs : "+nouvellesCouleurs);
 		return nouvellesCouleurs;
 	}
@@ -253,28 +253,15 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 		try {
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		new FenetrePrincipale();
-
-		/*FenetrePrincipale fen = new FenetrePrincipale();
-		List<Color> nuanceGris = new ArrayList<Color>();
-		nuanceGris.add(new Color(120, 120, 120));
-		nuanceGris.add(new Color(20, 20, 20));
-		nuanceGris.add(new Color(130, 130, 130));
-		nuanceGris.add(new Color(100, 100, 100));
-		fen.setNbCouleurs(4);
-		fen.verifierNuance(nuanceGris);*/
 	}
 
 

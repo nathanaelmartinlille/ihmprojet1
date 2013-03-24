@@ -43,7 +43,7 @@ public class RenduBoutonCouleur extends JPanel implements IRenduBoutonCouleur {
 		listeBoutonsCouleur = new ArrayList<JButton>();
 		listeBoutonsGris = new ArrayList<JButton>();
 		listePanels = new ArrayList<PanelBouton>();
-		
+		//TODO faire dialogue utilisateur pour aider dans demarche
 		for(int i =0; i<fenetrePrincipale.getNbCouleurs(); i++)
 		{
 			// on creer les panels de couleur ainsi que les panel pour les gris générés
@@ -60,7 +60,6 @@ public class RenduBoutonCouleur extends JPanel implements IRenduBoutonCouleur {
 		this.add(panelGris, BorderLayout.EAST);
 		this.setSize(TAILLE_BOUTON * fenetrePrincipale.getNbCouleurs(), TAILLE_BOUTON * 3);
 	}
-	//FIXME creer classe utilitaire pour generer le gris à partir d'une couleur
 
 	@Override
 	public void colorerBouton(JButton boutonAColorer, Color couleurADefinir) {

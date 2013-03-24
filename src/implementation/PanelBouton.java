@@ -12,6 +12,8 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -37,7 +39,7 @@ public class PanelBouton extends JPanel {
 	JTextField valeurRouge;
 	JTextField valeurBleue;
 	JTextField valeurVerte;
-	 JTextField valeurHexa;
+	JTextField valeurHexa;
 	JLabel labelBleu;
 	JLabel labelRouge;
 	JLabel labelVert;
@@ -52,10 +54,6 @@ public class PanelBouton extends JPanel {
 		if(couleur)
 			initHandler();
 	}
-	//TODO proposer à l'utilisateur des couleurs préselectionnées
-	//FIXME faire une bouton pour generer une couleur aleatoire -> rajouter le bouton al�atoire pour chaque couleur
-	//TODO undo redo
-	//TODO faire un bouton " ouvrir fichier de couleur exportée " sans avoir besoin de demander la destination à l'utilisateur
 	public void init(int position){
 		if(couleur){
 			valeurBleue = new JTextField("000");
@@ -94,7 +92,6 @@ public class PanelBouton extends JPanel {
 		valeurCouleurCourante.setLayout(new GridLayout(4, 2));//RVB 4933
 
 		if(couleur){
-			
 			valeurCouleurCourante.add(valeurRouge);
 			valeurCouleurCourante.add(labelRouge);
 			valeurCouleurCourante.add(valeurVerte);
@@ -109,6 +106,72 @@ public class PanelBouton extends JPanel {
 
 
 	private void initHandler() {
+		initBoutonHandler();
+		initValeurCouleurBoutonHandler();
+
+
+	}
+
+	private void initValeurCouleurBoutonHandler() {
+		ajoutListener(valeurRouge);
+		ajoutListener(valeurVerte);
+		ajoutListener(valeurBleue);
+		
+	}
+
+	private void ajoutListener(final JTextField valeurCouleurField) {
+		valeurCouleurField.addKeyListener(new KeyListener() {
+			int valeurCouleur;
+			@Override
+			public void keyTyped(KeyEvent e) {}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				Color nouvelleColor = new Color(Integer.parseInt(valeurRouge.getText()), Integer.parseInt(valeurVerte.getText()), Integer.parseInt(valeurBleue.getText()));
+				/// Si la couleur a déjà été utilisée
+				if(boutonCouleur.fenetrePrincipale.couleursChoisies.contains(nouvelleColor))
+				{
+					new JDialog(boutonCouleur.fenetrePrincipale.getFrameFenetrePrincipale(), "couleur déjà utilisée").setVisible(true);
+				}
+				else
+				{
+					miseAJourCouleurBouton(button, nouvelleColor);
+				}
+				boutonCouleur.fenetrePrincipale.getFrameFenetrePrincipale().repaint();
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				valeurCouleur = Integer.parseInt(valeurCouleurField.getText());
+				if(e.getKeyCode() == KeyEvent.VK_UP){
+					valeurCouleur++;
+					valeurCouleurField.setText(valeurCouleur+"");
+				}
+				if(e.getKeyCode() == KeyEvent.VK_DOWN){
+					valeurCouleur--;
+					valeurCouleurField.setText(valeurCouleur+"");
+				}
+			}
+		});	
+		valeurCouleurField.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Color nouvelleColor = new Color(Integer.parseInt(valeurRouge.getText()), Integer.parseInt(valeurVerte.getText()), Integer.parseInt(valeurBleue.getText()));
+				/// Si la couleur a déjà été utilisée
+				if(boutonCouleur.fenetrePrincipale.couleursChoisies.contains(nouvelleColor))
+				{
+					new JDialog(boutonCouleur.fenetrePrincipale.getFrameFenetrePrincipale(), "couleur déjà utilisée").setVisible(true);
+				}
+				else
+				{
+					miseAJourCouleurBouton(button, nouvelleColor);
+				}
+				boutonCouleur.fenetrePrincipale.getFrameFenetrePrincipale().repaint();
+			}
+		});
+	}
+	private void initBoutonHandler() {
 		button.addActionListener(new ActionListener() {
 
 			@Override
@@ -124,21 +187,26 @@ public class PanelBouton extends JPanel {
 						}
 						else
 						{
-							System.out.println("ajout dans l'historique la couleur qui a été choisie");
 							JButton boutonClique = (JButton)e.getSource();
-							Color couleurBouton = boutonClique.getBackground();
-							// on enregistre sous le format index du bouton + R + G + B
-							HistoriqueUtils.ecrireHistorique(boutonCouleur.listeBoutonsCouleur.indexOf(boutonClique) + "_"+ couleurBouton.getRed() + "_" + couleurBouton.getGreen() + "_" + couleurBouton.getBlue());
-							boutonCouleur.fenetrePrincipale.couleursChoisies.add(recuperationCouleurSemiAuto.couleurClique);
-							boutonCouleur.colorerBouton(boutonClique, recuperationCouleurSemiAuto.couleurClique);
-							miseAjourValeurBouton(recuperationCouleurSemiAuto.couleurClique);
+							miseAJourCouleurBouton(boutonClique, recuperationCouleurSemiAuto.couleurClique);
 						}
 						boutonCouleur.fenetrePrincipale.getFrameFenetrePrincipale().repaint();
 					}
+
+
 				});
 				recuperationCouleurSemiAuto.updatePos(boutonCouleur.fenetrePrincipale.couleursChoisies);
 			}
 		});
+	}
+
+	private void miseAJourCouleurBouton(JButton boutonClique, Color nouvelleCouleur) {
+		System.out.println("ajout dans l'historique la couleur qui a été choisie");
+		// on enregistre sous le format index du bouton + R + G + B
+		HistoriqueUtils.ecrireHistorique(boutonCouleur.listeBoutonsCouleur.indexOf(boutonClique) + "_"+ boutonClique.getBackground().getRed() + "_" + boutonClique.getBackground().getGreen() + "_" + boutonClique.getBackground().getBlue());
+		boutonCouleur.fenetrePrincipale.couleursChoisies.add(nouvelleCouleur);
+		boutonCouleur.colorerBouton(boutonClique, nouvelleCouleur);
+		miseAjourValeurBouton(nouvelleCouleur);
 	}
 
 	private void miseAjourValeurBouton(Color couleurClique) {
@@ -146,6 +214,7 @@ public class PanelBouton extends JPanel {
 		this.valeurRouge.setText(couleurClique.getRed()+"");
 		this.valeurVerte.setText(couleurClique.getGreen()+"");
 		this.valeurHexa.setText(Integer.toHexString(couleurClique.getRGB() & 0x00FFFFFF));
+		boutonCouleur.fenetrePrincipale.recalculerCouleur(boutonCouleur.fenetrePrincipale.couleursChoisies);
 	}
 	public JButton getBouton() {
 		return button;
@@ -173,15 +242,17 @@ class TransfertHandlerPerso extends TransferHandler
 		return true;
 	}
 
+	//FIXME ajouter des listener sur les textfield pour changer la couleur directement
+
+
 	public boolean importData(TransferHandler.TransferSupport support){
 		if(!canImport(support))
 			return false;
 
 		Transferable data = support.getTransferable();
-		String str = "";
 
 		try {
-			str = (String)data.getTransferData(DataFlavor.stringFlavor);
+			data.getTransferData(DataFlavor.stringFlavor);
 		} catch (UnsupportedFlavorException e){
 			e.printStackTrace();
 		} catch (IOException e) {
