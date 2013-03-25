@@ -257,10 +257,6 @@ public class PanelBouton extends JPanel {
 
 class TransfertHandlerPerso extends TransferHandler
 {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public boolean canImport(TransferHandler.TransferSupport info) {

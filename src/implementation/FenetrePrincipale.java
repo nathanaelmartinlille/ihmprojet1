@@ -168,6 +168,7 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 		couleursChoisies = recalculerCouleur(couleursChoisies);
 
 		for (int i = 0; i < getNbCouleurs(); i++) {
+			//FIXME probleme ici lorsqu'on choisit une seule couleur dans le JSLIDER
 			getBoutonsCouleur().colorerBouton(getBoutonsCouleur().listeBoutonsCouleur.get(i), couleursChoisies.get(i)); 
 			getBoutonsCouleur().changerLabelCouleurs(i, couleursChoisies.get(i));
 		}

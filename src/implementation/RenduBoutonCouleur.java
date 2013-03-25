@@ -70,6 +70,7 @@ public class RenduBoutonCouleur extends JPanel implements IRenduBoutonCouleur {
 		
 		listeBoutonsGris.get(listeBoutonsCouleur.indexOf(boutonAColorer)).setBackground(CouleurUtils.genererGrisAPartirDeCouleur(couleurADefinir));
 		listeBoutonsGris.get(listeBoutonsCouleur.indexOf(boutonAColorer)).setForeground(new Color(255 - couleurADefinir.getRed(), 255 - couleurADefinir.getGreen(), 255 - couleurADefinir.getBlue()));
+		changerLabelCouleurs(listeBoutonsCouleur.indexOf(boutonAColorer), couleurADefinir);
 	}
 	
 	/**
