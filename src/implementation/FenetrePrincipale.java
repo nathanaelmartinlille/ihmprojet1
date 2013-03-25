@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,7 +21,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import outil.CouleurUtils;
 import outil.HistoriqueUtils;
-
 import facade.IFenetrePrincipale;
 
 public class FenetrePrincipale implements IFenetrePrincipale {
@@ -173,8 +173,12 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 		}
 	}
 
+	//FIXME absolument cacher la fenetre de recuperation de couleur lorsque la prise de couleur s'est effectué pour eviter de donner l'impression de lenteur de l'application
+	//FIXME faire apparaitre une popup qui permet de faire patienter l'utilisateur durant les traitements 
 	@Override
 	public List<Color> recalculerCouleur(List<Color> listeCouleurOrigine) {
+		JDialog dialoguePatientez = new JDialog(this.frameFenetrePrincipale, "Patientez SVP", false);
+		dialoguePatientez.setVisible(true);
 		List<Color> listeNuanceGris = new ArrayList<Color>();
 		List<Color> nouvelleListeCouleur = new ArrayList<Color>();
 		nouvelleListeCouleur = listeCouleurOrigine;
@@ -193,7 +197,6 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 		List<Color> nouvellesCouleurs = new ArrayList<Color>();
 		while(!verifierNuance(listeNuanceGris))
 		{
-			System.out.println("ce n'ets pas bon");
 			for (int i = 1; i <= nbCouleurs; i++) {
 				Color grisOptimal = new Color(i*milieu, i*milieu, i*milieu);
 				Color grisPlusProche = listeNuanceGris.get(0);
@@ -206,8 +209,6 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 						colorPlusProche = nouvelleListeCouleur.get(gris);
 					}
 				}
-
-
 				// Couleurs possibles pour le gris optimal
 				ArrayList<Color> couleursOkPourGris = new ArrayList<Color>();
 				for (int couleur1 = 0; couleur1 < 256; couleur1++) {
@@ -245,6 +246,7 @@ public class FenetrePrincipale implements IFenetrePrincipale {
 		}
 
 		System.out.println("nouvelles couleurs : "+nouvellesCouleurs);
+		dialoguePatientez.setVisible(false);
 		return nouvellesCouleurs;
 	}
 

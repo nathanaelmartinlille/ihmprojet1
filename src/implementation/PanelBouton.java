@@ -116,18 +116,14 @@ public class PanelBouton extends JPanel {
 		ajoutListener(valeurRouge);
 		ajoutListener(valeurVerte);
 		ajoutListener(valeurBleue);
-		
-	}
 
-	private void ajoutListener(final JTextField valeurCouleurField) {
-		valeurCouleurField.addKeyListener(new KeyListener() {
-			int valeurCouleur;
-			@Override
-			public void keyTyped(KeyEvent e) {}
+		// ajout du listener specifique au champ haxa
+		valeurHexa.addActionListener(new ActionListener() {
 
 			@Override
-			public void keyReleased(KeyEvent e) {
-				Color nouvelleColor = new Color(Integer.parseInt(valeurRouge.getText()), Integer.parseInt(valeurVerte.getText()), Integer.parseInt(valeurBleue.getText()));
+			public void actionPerformed(ActionEvent e) {
+				//valeurHexa.setText(Integer.toHexString(couleurClique.getRGB() & 0x00FFFFFF));
+				Color nouvelleColor = new Color(Integer.decode("0x"+valeurHexa.getText()));
 				/// Si la couleur a déjà été utilisée
 				if(boutonCouleur.fenetrePrincipale.couleursChoisies.contains(nouvelleColor))
 				{
@@ -139,17 +135,51 @@ public class PanelBouton extends JPanel {
 				}
 				boutonCouleur.fenetrePrincipale.getFrameFenetrePrincipale().repaint();
 			}
+		});
+
+	}
+
+	private void ajoutListener(final JTextField valeurCouleurField) {
+		valeurCouleurField.addKeyListener(new KeyListener() {
+			int valeurCouleur;
+			@Override
+			public void keyTyped(KeyEvent e) {}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// on teste si et seulement si on a tapé sur le haut ou le bas, sinon il s'agit d'une touche telle que un numéro entré ou autre
+				if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP){
+					Color nouvelleColor = new Color(Integer.parseInt(valeurRouge.getText()), Integer.parseInt(valeurVerte.getText()), Integer.parseInt(valeurBleue.getText()));
+					/// Si la couleur a déjà été utilisée
+					if(boutonCouleur.fenetrePrincipale.couleursChoisies.contains(nouvelleColor))
+					{
+						new JDialog(boutonCouleur.fenetrePrincipale.getFrameFenetrePrincipale(), "couleur déjà utilisée").setVisible(true);
+					}
+					else
+					{
+						miseAJourCouleurBouton(button, nouvelleColor);
+					}
+					boutonCouleur.fenetrePrincipale.getFrameFenetrePrincipale().repaint();
+				}
+			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
 				valeurCouleur = Integer.parseInt(valeurCouleurField.getText());
+				Color nouvelleColor = new Color(Integer.parseInt(valeurRouge.getText()), Integer.parseInt(valeurVerte.getText()), Integer.parseInt(valeurBleue.getText()));
 				if(e.getKeyCode() == KeyEvent.VK_UP){
-					valeurCouleur++;
-					valeurCouleurField.setText(valeurCouleur+"");
+					if(valeurCouleur <255){
+						valeurCouleur++;
+						valeurCouleurField.setText(valeurCouleur+"");
+						button.setBackground(nouvelleColor);
+					}
 				}
 				if(e.getKeyCode() == KeyEvent.VK_DOWN){
-					valeurCouleur--;
-					valeurCouleurField.setText(valeurCouleur+"");
+					if(valeurCouleur >1){
+						valeurCouleur--;
+						valeurCouleurField.setText(valeurCouleur+"");
+						button.setBackground(nouvelleColor);
+					}
 				}
 			}
 		});	
@@ -213,7 +243,7 @@ public class PanelBouton extends JPanel {
 		this.valeurBleue.setText(couleurClique.getBlue()+"");
 		this.valeurRouge.setText(couleurClique.getRed()+"");
 		this.valeurVerte.setText(couleurClique.getGreen()+"");
-		this.valeurHexa.setText(Integer.toHexString(couleurClique.getRGB() & 0x00FFFFFF));
+		this.valeurHexa.setText(Integer.toHexString(couleurClique.getRGB() & 0x00FFFFFF).toUpperCase());
 		boutonCouleur.fenetrePrincipale.recalculerCouleur(boutonCouleur.fenetrePrincipale.couleursChoisies);
 	}
 	public JButton getBouton() {
@@ -223,8 +253,6 @@ public class PanelBouton extends JPanel {
 	public void setBouton(JButton bouton) {
 		this.button = bouton;
 	}
-
-
 }
 
 class TransfertHandlerPerso extends TransferHandler
